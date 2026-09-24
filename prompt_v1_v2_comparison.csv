@@ -1,0 +1,3 @@
+Prompt version,Category accuracy,Manual Review accuracy,Valid JSON rate,Hidden conditions reviewed,Execution errors,Average latency seconds,Input tokens,Output tokens,Cost USD
+Prompt v1,0.9666666666666667,0.9833333333333333,1.0,8/8,0,0.7986666666666665,23808,5055,0.004402799999999999
+Prompt v2,1.0,1.0,1.0,8/8,0,0.85605,43968,5168,0.006464
