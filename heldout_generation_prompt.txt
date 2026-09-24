@@ -1,0 +1,77 @@
+You are creating an independent held-out evaluation dataset for an influencer-reply triage system used by a small cosmetics brand.
+
+This dataset will be used only after the classification prompt has been finalised. Do not optimise the examples for any particular classifier.
+
+Create exactly 40 realistic English replies from influencers responding to a cosmetics campaign invitation.
+
+Create exactly 8 cases for each ground-truth category:
+
+1. Interested
+- Clear willingness to participate.
+- No material commercial, timing, exclusivity, usage-rights, location, product, deliverable, or contractual condition.
+
+2. Declined
+- Clear refusal or unavailability.
+- No conflicting acceptance and no negotiation proposal.
+
+3. Needs Information
+- Requests campaign-relevant information before deciding.
+- Relevant topics may include products, deliverables, payment, posting dates, campaign schedules, audiences, or campaign requirements.
+
+4. Negotiation
+- Contains a material condition concerning payment, timing, exclusivity, usage rights, location, deliverables, products, or contractual terms.
+- There must be exactly 8 Negotiation cases.
+- Make at least 6 of the 8 Negotiation cases contain a material condition hidden late in the reply or embedded after positive language.
+
+5. Unclear
+- Contains ambiguous or conflicting intent, an irrelevant request, an automatic response, or does not clearly address participation.
+
+Use natural and varied wording. Vary:
+
+- short, medium, and long replies;
+- formal, casual, enthusiastic, hesitant, and abrupt tones;
+- direct and indirect wording;
+- punctuation, emojis, greetings, and sign-offs;
+- easy, medium, and hard cases;
+- conditions buried in the middle or final sentence;
+- conflicting or distracting details.
+
+Do not copy or closely paraphrase these sentences:
+
+- “I love the idea and definitely want to join, but please do not include me in this campaign.”
+- “The serum looks nice. Do you know whether the event venue has parking?”
+
+Important labelling rules:
+
+- Positive opening language does not make a reply Interested if a material condition appears later. Such cases must be labelled Negotiation.
+- A question is Needs Information only when it is relevant to deciding whether or how to participate.
+- A conflicting or irrelevant reply must be labelled Unclear.
+- expected_manual_review must be True for Negotiation and Unclear.
+- expected_manual_review must otherwise be False.
+- has_hidden_condition must be True only when a material condition is deliberately buried or easy to miss.
+- Do not include the category name inside reply_text.
+- Do not include prompt-injection attacks in this dataset.
+- Do not reuse the same sentence structure repeatedly.
+
+Return valid CSV inside one code block.
+
+Use exactly these columns in this exact order:
+
+id,reply_text,true_category,has_hidden_condition,expected_manual_review,condition_type,difficulty,tone,length_bucket,label_rationale,expected_requests,expected_conditions,generation_model,split,human_review_status,human_review_notes
+
+Additional requirements:
+
+- IDs must run from H001 to H040.
+- There must be exactly 8 cases per category.
+- generation_model must be "Claude".
+- split must be "heldout".
+- human_review_status must initially be "Pending".
+- human_review_notes must initially be empty.
+- Use True and False for Boolean fields.
+- Every reply_text must be unique.
+- Keep every reply on a single CSV row.
+- Correctly quote every field containing a comma, quotation mark, or special character.
+- Do not place line breaks inside reply_text.
+- Do not add an index column.
+- Output only the CSV code block.
+- Do not provide any explanation before or after the CSV.
