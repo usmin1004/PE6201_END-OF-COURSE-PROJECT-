@@ -1,0 +1,36 @@
+PE6201 Development Dataset Generation Prompt
+
+Generation date: 2026-09-24
+Generation model: OpenAI GPT-5 (ChatGPT)
+Purpose: Create the 60-case development set for prompt design and debugging. This is not the held-out final test set.
+
+PROMPT
+
+Create 60 fictional English-language influencer replies to a cosmetics campaign manager named Hana. Produce exactly 12 replies for each ground-truth category: Interested, Declined, Needs Information, Negotiation, and Unclear.
+
+Category definitions:
+- Interested: accepts or shows clear willingness without a material condition.
+- Declined: clearly refuses or is unavailable and does not propose negotiation.
+- Needs Information: requests information before deciding and does not yet impose a preferred commercial or contractual term.
+- Negotiation: proposes or reveals a material condition involving payment, timing, exclusivity, usage rights, location, deliverables, products, claims, or contract terms.
+- Unclear: intent is ambiguous, conflicting, irrelevant, incomplete, or only an automatic reply.
+
+Manual-review rule:
+- Set expected_manual_review=true for all Negotiation and Unclear cases.
+- Also set it to true whenever a material restriction or conflicting intention makes human confirmation necessary.
+- Otherwise set it to false.
+
+Variation requirements:
+- Vary length, tone, formality, directness, punctuation, and difficulty.
+- Include realistic short, medium, and long replies.
+- Include indirect language, emojis, automatic replies, conflicting intentions, and incomplete messages.
+- In several Negotiation cases, place a material condition near the end after positive acceptance language. Mark only those cases has_hidden_condition=true.
+- Do not include real names, private information, or identifiable individuals.
+- Do not place category names or label-revealing metadata inside reply_text.
+- Avoid near-duplicates and template-like repetition.
+
+Required fields:
+id, reply_text, true_category, has_hidden_condition, expected_manual_review, condition_type, difficulty, tone, length_bucket, label_rationale, expected_requests, expected_conditions, generation_model, split, human_review_status, human_review_notes.
+
+Ground-truth procedure:
+Generate the replies against the pre-assigned balanced labels. Fix all labels before running the classifier. A human reviewer must read every row and mark human_review_status as Approved, Revise, or Exclude before the development set is used. Only reply_text will be passed to the classification model.
