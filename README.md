@@ -17,7 +17,7 @@ The system supports prioritisation only. It does not approve partnerships, make 
 
 ## Business problem
 
-A campaign manager such as **Hana** may receive many influencer replies with different intentions, questions, and conditions. Reading every reply manually is slow, while relying only on keywords can miss meaning that is implied or placed late in a message. A particularly important risk is an apparently positive reply that contains a hidden condition, such as exclusivity, timing, payment, or product restrictions.
+A campaign manager such as **Hana** may need to review 50 influencer replies for a single campaign, each with different intentions, questions, and conditions. Reading and organising every reply manually is slow, while relying only on keywords can miss meaning that is implied or placed late in a message. Existing platforms such as Upfluence support influencer outreach and status management; this project instead focuses on a small, explainable reply-triage tool for cosmetics teams. A particularly important risk is an apparently positive reply that contains a hidden condition, such as exclusivity, timing, payment, or product restrictions.
 
 The MVP aims to reduce the initial reading workload while preserving human oversight for ambiguous and higher-risk cases.
 
@@ -109,14 +109,19 @@ These cases show why category accuracy alone is insufficient and why human escal
 | File | Purpose |
 |---|---|
 | `PE6201_Influencer_Reply_Triage_MVP.ipynb` | Main Colab notebook containing the MVP, baselines, prompt versions, evaluation, cost, and latency measurement. |
+| `README.md` | Project overview, results, limitations, repository guide, and running instructions. |
 | `dev_60.csv` | Manually reviewed 60-case development dataset. |
+| `dev_60_results.csv` | Prompt v1 predictions and scored results for all 60 development cases. |
 | `dev_generation_prompt.txt` | Prompt used to generate the development data. |
+| `development_model_comparison.csv` | Development-set comparison of the majority baseline, keyword baseline, and Prompt v1 model. |
 | `heldout_40.csv` | Manually reviewed 40-case held-out dataset. |
-| `heldout_generation_prompt.txt` | Prompt used to generate the independent held-out data. |
-| `pilot_10_results.csv` | Results from the initial 10-case pilot gate. |
-| `prompt_v1_results.csv` / `prompt_v2_results.csv` | Development-set evidence used to compare prompt versions. |
 | `heldout_40_predictions.csv` | Raw outputs from the single final held-out run. |
 | `heldout_40_results.csv` | Scored final held-out results and evaluation evidence. |
+| `heldout_generation_prompt.txt` | Prompt used to generate the independent held-out data. |
+| `pilot_10_results.csv` | Results from the initial 10-case pilot gate. |
+| `prompt_v1_v2_comparison.csv` | Case-level comparison of Prompt v1 and Prompt v2 on the development set. |
+| `prompt_v2_dev_60_results.csv` | Full Prompt v2 predictions and scored results for all 60 development cases. |
+| `remaining_50_results.csv` | Results for the 50 development cases evaluated after the initial 10-case pilot. |
 
 ## How to run
 
