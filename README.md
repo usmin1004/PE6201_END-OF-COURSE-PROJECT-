@@ -189,7 +189,7 @@ The final held-out evaluation has already been completed and recorded. Keep `RUN
 
 ## Demo video
 
-Demo video: [PE6201 Final Project Individual Demo Video](https://youtu.be/_XS80AxOY1Q)
+Demo video: [PE6201 End-of-Course Project Demo Video Individual](https://youtu.be/vEvz3fkC45s)
 
 ## Course
 
