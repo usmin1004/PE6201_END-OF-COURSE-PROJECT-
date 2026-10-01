@@ -15,6 +15,33 @@ This project is a small AI-assisted triage system for cosmetics influencer campa
 
 The system supports prioritisation only. It does not approve partnerships, make contractual decisions, or send replies automatically. Final decisions remain with the campaign manager.
 
+## Product documentation
+
+| Item | Description |
+|---|---|
+| **Persona** | Hana, a cosmetics campaign manager reviewing influencer replies for a campaign. |
+| **Input** | One influencer reply as plain text. Only `reply_text` is sent to the classification model. |
+| **Output** | A structured JSON result containing category, requests, important conditions, evidence, `manual_review`, and `manual_review_reason`. |
+| **Human decision** | Hana reviews escalated cases and remains responsible for every collaboration, negotiation, and messaging decision. |
+
+### High-level architecture
+
+```mermaid
+flowchart TD
+    A[Influencer reply text] --> B[Prompt v2 and one model call]
+    B --> C[Gemini 2.5 Flash Lite through OpenRouter]
+    C --> D[Structured JSON response]
+    D --> E[Schema validation and safe fallback]
+    E --> F[Category, requests, conditions, and evidence]
+    F --> G{Manual Review required?}
+    G -->|Yes| H[Hana reviews the reply]
+    G -->|No| I[Reply is prioritised for routine handling]
+    H --> J[Hana makes the final decision]
+    I --> J
+```
+
+The LLM provides external language intelligence. The project code supplies the prompt, category rules, structured-output validation, fallback behaviour, metric calculation, and Manual Review logic.
+
 ## Business problem
 
 A campaign manager such as **Hana** may need to review 50 influencer replies for a single campaign, each with different intentions, questions, and conditions. Reading and organising every reply manually is slow, while relying only on keywords can miss meaning that is implied or placed late in a message. Existing platforms such as Upfluence support influencer outreach and status management; this project instead focuses on a small, explainable reply-triage tool for cosmetics teams. A particularly important risk is an apparently positive reply that contains a hidden condition, such as exclusivity, timing, payment, or product restrictions.
@@ -68,6 +95,19 @@ The project compared the LLM system with two simple baselines:
 
 Prompt v1 established the initial five-class rules and structured output. Development errors were reviewed, and Prompt v2 clarified category boundaries, hidden conditions, conflicting intent, and Manual Review requirements. No held-out cases were used to revise the final prompt.
 
+## Target metrics
+
+The targets reflect the initial classification goal and the safety requirements of the problem statement. Cost and latency were measured as operational metrics rather than given artificial thresholds after the run.
+
+| Metric | Target | Final result | Status |
+|---|---:|---:|---|
+| Held-out category accuracy | At least 80% | **95.0%** | Met |
+| Hidden-condition cases sent to Manual Review | 100% | **7/7 (100%)** | Met |
+| Valid structured JSON | 100% | **39/40 (97.5%)** | Not fully met |
+| Human decision authority | 100%; no autonomous messages or contract decisions | **100% by design** | Met |
+| Average latency | Measured operational metric | **0.803 seconds** | Reported |
+| Model cost for 50 replies | Measured operational metric | **USD 0.005530** | Reported |
+
 ## Results
 
 ### System comparison
@@ -110,6 +150,8 @@ These cases show why category accuracy alone is insufficient and why human escal
 |---|---|
 | `PE6201_Influencer_Reply_Triage_MVP.ipynb` | Main Colab notebook containing the MVP, baselines, prompt versions, evaluation, cost, and latency measurement. |
 | `README.md` | Project overview, results, limitations, repository guide, and running instructions. |
+| `DATA.md` | Data-generation, review, schema, split, and limitation explainer. |
+| `EVALUATION.md` | Evaluation procedure, metric definitions, evidence files, results, and failure-analysis explainer. |
 | `dev_60.csv` | Manually reviewed 60-case development dataset. |
 | `dev_60_results.csv` | Prompt v1 predictions and scored results for all 60 development cases. |
 | `dev_generation_prompt.txt` | Prompt used to generate the development data. |
@@ -122,6 +164,8 @@ These cases show why category accuracy alone is insufficient and why human escal
 | `prompt_v1_v2_comparison.csv` | Case-level comparison of Prompt v1 and Prompt v2 on the development set. |
 | `prompt_v2_dev_60_results.csv` | Full Prompt v2 predictions and scored results for all 60 development cases. |
 | `remaining_50_results.csv` | Results for the 50 development cases evaluated after the initial 10-case pilot. |
+
+For detailed evidence guidance, see [DATA.md](DATA.md) and [EVALUATION.md](EVALUATION.md).
 
 ## How to run
 
