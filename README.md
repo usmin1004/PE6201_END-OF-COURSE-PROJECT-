@@ -28,16 +28,15 @@ The system supports prioritisation only. It does not approve partnerships, make 
 
 ```mermaid
 flowchart TD
-    A[Influencer reply text] --> B[Prompt v2 and one model call]
-    B --> C[Gemini 2.5 Flash Lite through OpenRouter]
-    C --> D[Structured JSON response]
-    D --> E[Schema validation and safe fallback]
-    E --> F[Category, requests, conditions, and evidence]
-    F --> G{Manual Review required?}
-    G -->|Yes| H[Hana reviews the reply]
-    G -->|No| I[Reply is prioritised for routine handling]
-    H --> J[Hana makes the final decision]
-    I --> J
+    A["Reply text"] --> B["Prompt v2"]
+    B --> C["Gemini Flash Lite"]
+    C --> D["JSON validation"]
+    D --> E["Triage result"]
+    E --> F{"Review?"}
+    F -->|Yes| G["Hana reviews"]
+    F -->|No| H["Routine queue"]
+    G --> I["Hana decides"]
+    H --> I
 ```
 
 The LLM provides external language intelligence. The project code supplies the prompt, category rules, structured-output validation, fallback behaviour, metric calculation, and Manual Review logic.
